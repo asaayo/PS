@@ -1,0 +1,16 @@
+{
+  "name": "PS",
+  "version": "0.0.1",
+  "description": "Server for AttachIt! Hackathon project",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "mssql": "^4.0.4",
+    "path": "^0.12.7",
+    "tedious": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/asaayo/PS"
+  }
+}
