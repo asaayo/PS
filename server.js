@@ -1,28 +1,34 @@
 var express = require("express");
-var mssql = require("mssql");
 var bodyParser = require("body-parser");
-var config = require("./config.js");
-const dbConfig = {
-    user: config.db.username,
-    password: config.db.password,
-    server: config.db.server,
-    database: config.db.database
+var configFile = require("./config.js");
+var sql = require("mssql");
+const config = {
+    user: configFile.db.username,
+    password: configFile.db.password,
+    server: configFile.db.server,
+    database: configFile.db.database,
+    options: {
+        instanceName: configFile.db.instance
+    }
 }
 
 var app = express();
-app.use(express.static(__dirname + "/public"));
-app.use(bodyParser.json());
 
-//app.get("/types", function(request, response) {
+// sql.connect(config, function(err){
+//     var request = new sql.Request();
+//     request.query("select top 1 * from employee", function(err, result){
+//         if(err) console.log(err);
+//         console.log(result);
+//     });
+// });
+
+(async function() {
     try {
-        mssql.connect(config, function(err){
-            var request = new mssql.Request(config);
-            request.query("select top 1 * from employee", function(err, result){
-                if(err) console.log(err);
-                else console.log(recordset);
-            });
-        });
-    } catch (err) {
-        // ... error checks 
+        let pool = await sql.connect(config);
+        let result = await pool.request().query("select top 1 * from employee");
+        console.log(result);
+        return(0);
+    } catch (err){
+        console.log(err);
     }
-//});
+})();
